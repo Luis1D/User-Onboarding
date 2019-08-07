@@ -36,7 +36,19 @@ const FormikLoginForm = withFormik({
             tos: tos || false
         };
     },
-    // validationSchema
+    validationSchema: Yup.object().shape({
+        username: Yup.string()
+            .max(5, "Username must be no more than 5 characters..")
+            .required("Username required.."),
+        email: Yup.string()
+            .email("Valid email required..")
+            .required("Email required.."),
+        password: Yup.string()
+            .min(8, "Password must be at least 8 characters..")
+            .required("Password Required.."),
+        // tos: Yup.boolean()
+        //     .isValid(),
+    }),
 })(MyForm);
 
 export default FormikLoginForm;
