@@ -69,8 +69,8 @@ const FormikLoginForm = withFormik({
         password: Yup.string()
             .min(8, "Password must be at least 8 characters..")
             .required("Password Required.."),
-        // tos: Yup.boolean()
-        //     .isValid("true"),
+        tos: Yup.bool()
+            .oneOf([true], 'Agree with our terms!'),
     }),
     handleSubmit(values, { setStatus }) {
         axios.post('https://reqres.in/api/users', values)
