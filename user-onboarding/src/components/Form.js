@@ -17,27 +17,30 @@ function MyForm ({ values, errors, touched, status }) {
     }, [status]);
 
     return (
-        <div>
-            <Form>
-                <div>
-                    { touched.username && errors.username && <p>{ errors.username }</p>}
-                    <Field type="username" name="username" placeholder="Username" />
+        <div className="form-container">
+            <Form className="form">
+                <div className="input-container">
+                    { touched.username && errors.username && <p className="error">{ errors.username }</p>}
+                    <Field type="username" name="username" placeholder="Username" className="input"/>
                 </div>
-                <div>
-                    { touched.email && errors.email && <p>{ errors.email }</p>}
-                    <Field type="email" name="email" placeholder="Email" />
+                <div className="input-container">
+                    { touched.email && errors.email && <p className="error">{ errors.email }</p>}
+                    <Field type="email" name="email" placeholder="Email" className="input"/>
                 </div>
-                <div>
-                    { touched.password && errors.password && <p>{ errors.password }</p>}
-                    <Field type="password" name="password" placeholder="Password" />
+                <div className="input-container">
+                    { touched.password && errors.password && <p className="error">{ errors.password }</p>}
+                    <Field type="password" name="password" placeholder="Password" className="input"/>
                 </div>
                 <label>
-                    { touched.tos && errors.tos && <p>{ errors.tos }</p>}
-                    <Field type="checkbox" name="tos" checked={values.tos}/>
+                    { touched.tos && errors.tos && <p className="error">{ errors.tos }</p>}
+                    <Field type="checkbox" name="tos" checked={values.tos} />
                     Accept Out Terms Of Service
                 </label>
-                <button>Submit</button>
+                <div>
+                    <button>Submit</button>
+                </div>
             </Form>
+            <h1>Subscribers</h1>
             {
                 users.map((usr, key) => {
                     return <UserCard username={ usr.username } email={ usr.email }  id={ key }/>
