@@ -31,6 +31,14 @@ function MyForm ({ values, errors, touched, status }) {
                     { touched.password && errors.password && <p className="error">{ errors.password }</p>}
                     <Field type="password" name="password" placeholder="Password" className="input"/>
                 </div>
+                { touched.role && errors.role && <p className="error">{ errors.role }</p>}
+                <div className="dropdown-container">
+                    <Field component="select" name="role" className="dropdown">
+                        <option value="Full-Stack">Full-Stack</option>
+                        <option value="Front-End">Front-End</option>
+                        <option value="Back-End">Back-End</option>
+                    </Field>
+                </div>
                 <label>
                     { touched.tos && errors.tos && <p className="error">{ errors.tos }</p>}
                     <Field type="checkbox" name="tos" checked={values.tos} />
@@ -40,10 +48,10 @@ function MyForm ({ values, errors, touched, status }) {
                     <button>Submit</button>
                 </div>
             </Form>
-            <h1>Subscribers</h1>
+            <h1>Team Members</h1>
             {
                 users.map((usr, key) => {
-                    return <UserCard username={ usr.username } email={ usr.email }  id={ key }/>
+                    return <UserCard username={ usr.username } role={ usr.role } email={ usr.email } key={ key }/>
                 })
             }
         </div>
@@ -51,11 +59,12 @@ function MyForm ({ values, errors, touched, status }) {
 }
 
 const FormikLoginForm = withFormik({
-    mapPropsToValues({ username, email, password, tos }) {
+    mapPropsToValues({ username, email, password, role, tos }) {
         return {
             username: username || "",
             email: email || "",
             password: password || "",
+            role: role || "Front-End",
             tos: tos || false
         };
     },
@@ -69,6 +78,8 @@ const FormikLoginForm = withFormik({
         password: Yup.string()
             .min(8, "Password must be at least 8 characters..")
             .required("Password Required.."),
+        // role: Yup.string()
+        //     .required("Please chose a role.."),
         tos: Yup.bool()
             .oneOf([true], 'Agree with our terms!'),
     }),
