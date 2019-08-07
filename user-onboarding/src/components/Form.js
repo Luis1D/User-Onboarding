@@ -19,6 +19,7 @@ function MyForm ({ values, errors, touched }) {
                 <Field type="password" name="password" placeholder="Password" />
             </div>
             <label>
+                { touched.tos && errors.tos && <p>{ errors.tos }</p>}
                 <Field type="checkbox" name="tos" checked={values.tos}/>
                 Accept Out Terms Of Service
             </label>
@@ -47,8 +48,17 @@ const FormikLoginForm = withFormik({
             .min(8, "Password must be at least 8 characters..")
             .required("Password Required.."),
         // tos: Yup.boolean()
-        //     .isValid(),
+        //     .isValid("true"),
     }),
+    handleSubmit(values, { resetForm }) {
+        axios.post('https://reqres.in/api/users', values)
+        .then(res => {
+            console.log("RESPONSE", res);
+        })
+        .catch(err => {
+            console.log("ERROR", err);
+        });
+    }
 })(MyForm);
 
 export default FormikLoginForm;
