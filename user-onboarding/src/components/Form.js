@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
-function MyForm ({ values, errors, touched }) {
+function MyForm ({ values, errors, touched, status }) {
+
+    const [users, setUsers] = useState([]);
+    console.log(users)
+
+    useEffect(() => {
+        if(status) {
+            setUsers(users => [...users, status])
+        }
+    }, [status]);
+
     return (
         <Form>
             <div>
@@ -50,10 +60,11 @@ const FormikLoginForm = withFormik({
         // tos: Yup.boolean()
         //     .isValid("true"),
     }),
-    handleSubmit(values, { resetForm }) {
+    handleSubmit(values, { setStatus }) {
         axios.post('https://reqres.in/api/users', values)
         .then(res => {
-            console.log("RESPONSE", res);
+            setStatus(res.data);
+            console.log("RESPONSE", res.data);
         })
         .catch(err => {
             console.log("ERROR", err);
